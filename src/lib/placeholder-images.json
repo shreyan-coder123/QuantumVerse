@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-quantum",
+      "description": "Abstract quantum particle visualization with neon glows",
+      "imageUrl": "https://picsum.photos/seed/quantum1/1200/800",
+      "imageHint": "quantum physics particles"
+    },
+    {
+      "id": "module-beginner",
+      "description": "Digital representation of a qubit",
+      "imageUrl": "https://picsum.photos/seed/qubit/600/400",
+      "imageHint": "quantum computing qubit"
+    },
+    {
+      "id": "module-intermediate",
+      "description": "Quantum circuit diagrams on a futuristic screen",
+      "imageUrl": "https://picsum.photos/seed/circuit/600/400",
+      "imageHint": "electronic circuits futuristic"
+    },
+    {
+      "id": "module-advanced",
+      "description": "Complex mathematical visualizations and matrices",
+      "imageUrl": "https://picsum.photos/seed/math/600/400",
+      "imageHint": "abstract mathematical visualization"
+    },
+    {
+      "id": "avatar-professor",
+      "description": "Friendly AI professor avatar",
+      "imageUrl": "https://picsum.photos/seed/prof/200/200",
+      "imageHint": "robot teacher avatar"
+    }
+  ]
 }
