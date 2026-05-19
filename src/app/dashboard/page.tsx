@@ -26,7 +26,8 @@ import {
   Library,
   Calculator,
   Zap,
-  Activity
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 import CircuitLab from '@/components/quantum/CircuitLab';
@@ -134,6 +135,7 @@ export default function DashboardPage() {
 
               <motion.div whileHover={{ y: -5 }}>
                 <Card className="glass-card p-8 flex flex-col gap-6 rounded-3xl bg-accent/5">
+                  <div className="scanline" />
                   <div className="flex justify-between items-start">
                     <div className="p-4 rounded-2xl bg-accent/20 text-accent group-hover:neon-cyan transition-all">
                       <Activity className="w-8 h-8" />
