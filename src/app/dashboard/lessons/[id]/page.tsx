@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -12,10 +13,13 @@ import {
   Sparkles, 
   CheckCircle2,
   BrainCircuit,
-  Code2
+  Code2,
+  Atom,
+  Video
 } from 'lucide-react';
 import { CURRICULUM } from '@/app/lib/curriculum';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
+import ConceptAnimator from '@/components/quantum/ConceptAnimator';
 
 export default function LessonPage({ params }: { params: { id: string } }) {
   const lessonIndex = CURRICULUM.findIndex(l => l.id === params.id);
@@ -52,15 +56,32 @@ export default function LessonPage({ params }: { params: { id: string } }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Lesson Content */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="aspect-video w-full rounded-2xl overflow-hidden glass border border-white/10 shadow-2xl">
-              <iframe
-                src={`https://www.youtube.com/embed/${lesson.videoId}?autoplay=0&rel=0`}
-                title={lesson.title}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            <Tabs defaultValue="video" className="w-full">
+              <TabsList className="bg-white/5 p-1 h-12 mb-4 w-fit">
+                <TabsTrigger value="video" className="gap-2 px-6">
+                  <Video className="w-4 h-4" /> Video Lecture
+                </TabsTrigger>
+                <TabsTrigger value="visualization" className="gap-2 px-6">
+                  <Atom className="w-4 h-4" /> Quantum Visualization
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="video" className="mt-0 ring-0">
+                <div className="aspect-video w-full rounded-2xl overflow-hidden glass border border-white/10 shadow-2xl relative">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${lesson.videoId}?autoplay=0&rel=0`}
+                    title={lesson.title}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="visualization" className="mt-0 ring-0">
+                <ConceptAnimator conceptId={lesson.title} />
+              </TabsContent>
+            </Tabs>
 
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between">

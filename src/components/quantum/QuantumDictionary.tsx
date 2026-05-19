@@ -1,10 +1,17 @@
-
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from '@/components/ui/dialog';
 import { 
   Book, 
   Search, 
@@ -14,8 +21,10 @@ import {
   Zap, 
   Ghost,
   Eye,
-  Activity
+  Activity,
+  Play
 } from 'lucide-react';
+import ConceptAnimator from './ConceptAnimator';
 
 const TERMS = [
   {
@@ -119,7 +128,34 @@ export default function QuantumDictionary() {
               </div>
             </div>
             <div>
-              <h4 className="text-xl font-headline font-bold text-white mb-2 group-hover:text-primary transition-colors">{term.term}</h4>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-xl font-headline font-bold text-white group-hover:text-primary transition-colors">{term.term}</h4>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-8 text-[10px] uppercase tracking-widest gap-2 bg-primary/10 text-primary hover:bg-primary/20">
+                      <Play className="w-3 h-3" /> Visual Node
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl bg-background/95 border-white/10">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl font-headline font-bold text-white flex items-center gap-3">
+                        <div className={`p-2 rounded-lg bg-white/5 ${term.color}`}>
+                          <term.icon className="w-5 h-5" />
+                        </div>
+                        {term.term} Visualization
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="h-[500px] w-full mt-4">
+                      <ConceptAnimator conceptId={term.term} />
+                    </div>
+                    <div className="mt-4 p-4 bg-white/5 rounded-xl border border-white/5">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {term.def}
+                      </p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {term.def}
               </p>
