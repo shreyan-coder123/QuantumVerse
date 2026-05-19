@@ -16,10 +16,13 @@ import {
   Atom,
   Settings,
   BookOpen,
-  Code2
+  Code2,
+  Globe,
+  Newspaper
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 import CircuitLab from '@/components/quantum/CircuitLab';
+import QuantumNewsFeed from '@/components/quantum/QuantumNewsFeed';
 import { CURRICULUM } from '@/app/lib/curriculum';
 
 export default function DashboardPage() {
@@ -51,6 +54,11 @@ export default function DashboardPage() {
           <Link href="/dashboard/coding">
             <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
               <Code2 className="w-5 h-5" /> Coding Lab
+            </Button>
+          </Link>
+          <Link href="/dashboard/news">
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
+              <Globe className="w-5 h-5" /> News Feed
             </Button>
           </Link>
           <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
@@ -179,6 +187,16 @@ export default function DashboardPage() {
           {/* Right Column: AI Tutor & Stats */}
           <div className="flex flex-col gap-8">
             <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-headline font-bold text-white">Quantum Industry News</h2>
+                <Link href="/dashboard/news" className="text-xs text-primary hover:underline flex items-center gap-1">
+                  Full Feed <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <QuantumNewsFeed limit={3} />
+            </section>
+
+            <section>
               <h2 className="text-2xl font-headline font-bold text-white mb-6">AI Quantum Professor</h2>
               <ProfessorChat />
             </section>
@@ -196,29 +214,6 @@ export default function DashboardPage() {
                 <div className="text-right">
                   <span className="text-xs font-bold text-primary">+50 XP</span>
                 </div>
-              </div>
-            </Card>
-
-            <Card className="glass-card p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-headline font-bold text-white">Global Ranking</h3>
-                <Link href="#" className="text-xs text-primary hover:underline">View All</Link>
-              </div>
-              <div className="space-y-4">
-                {[
-                  { name: "Satoshi_Q", rank: 1, xp: "14.2k", avatar: "p1" },
-                  { name: "ElectronFlyer", rank: 2, xp: "12.8k", avatar: "p2" },
-                  { name: "Superposition101", rank: 3, xp: "11.5k", avatar: "p3" },
-                ].map((user, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className={`text-sm font-bold w-4 ${i === 0 ? 'text-yellow-500' : 'text-muted-foreground'}`}>{user.rank}</span>
-                    <div className="w-8 h-8 rounded-full bg-white/10 overflow-hidden">
-                      <img src={`https://picsum.photos/seed/${user.avatar}/100/100`} alt={user.name} />
-                    </div>
-                    <span className="text-sm text-white flex-1">{user.name}</span>
-                    <span className="text-xs font-mono text-accent">{user.xp} XP</span>
-                  </div>
-                ))}
               </div>
             </Card>
           </div>
