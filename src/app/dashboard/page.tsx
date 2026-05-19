@@ -15,7 +15,6 @@ import {
   BrainCircuit,
   Atom,
   Settings,
-  Bell,
   BookOpen
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
@@ -23,7 +22,7 @@ import CircuitLab from '@/components/quantum/CircuitLab';
 import { CURRICULUM } from '@/app/lib/curriculum';
 
 export default function DashboardPage() {
-  const activeLesson = CURRICULUM[5]; // Showcase one of the lessons as "Active"
+  const activeLesson = CURRICULUM[0]; // Start with the first lesson for a fresh experience
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -68,13 +67,13 @@ export default function DashboardPage() {
       <main className="flex-1 p-8 overflow-y-auto">
         <header className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-headline font-bold text-white">Welcome back, Qubit Explorer!</h1>
-            <p className="text-muted-foreground">Your quantum journey is 42% complete.</p>
+            <h1 className="text-3xl font-headline font-bold text-white">Welcome, Qubit Explorer!</h1>
+            <p className="text-muted-foreground">Ready to start your quantum journey? 0% complete.</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              <Flame className="w-4 h-4 text-orange-500" />
-              <span className="text-sm font-bold text-white">12 Day Streak</span>
+              <Flame className="w-4 h-4 text-orange-500/50" />
+              <span className="text-sm font-bold text-white/50">0 Day Streak</span>
             </div>
             <div className="w-10 h-10 rounded-full border border-primary/30 overflow-hidden bg-primary/20">
               <img src="https://picsum.photos/seed/user/100/100" alt="Avatar" className="w-full h-full object-cover" />
@@ -91,7 +90,7 @@ export default function DashboardPage() {
                   <div className="p-3 rounded-xl bg-primary/20 text-primary">
                     <Target className="w-6 h-6" />
                   </div>
-                  <Badge className="bg-primary text-white">Continue Track</Badge>
+                  <Badge className="bg-primary text-white">Start Path</Badge>
                 </div>
                 <div className="z-10">
                   <h3 className="text-xl font-headline font-bold text-white mb-1">{activeLesson.title}</h3>
@@ -100,13 +99,13 @@ export default function DashboardPage() {
                 <div className="space-y-2 mt-2 z-10">
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Progress</span>
-                    <span className="text-white font-bold">65%</span>
+                    <span className="text-white font-bold">0%</span>
                   </div>
-                  <Progress value={65} className="h-1.5" />
+                  <Progress value={0} className="h-1.5" />
                 </div>
                 <Link href={`/dashboard/lessons/${activeLesson.id}`} className="z-10">
                   <Button className="w-full bg-primary hover:bg-primary/90 mt-2 font-bold group">
-                    Continue Learning
+                    Begin Lesson
                     <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
@@ -118,23 +117,23 @@ export default function DashboardPage() {
                   <div className="p-3 rounded-xl bg-accent/20 text-accent">
                     <Trophy className="w-6 h-6" />
                   </div>
-                  <Badge variant="outline" className="text-accent border-accent/30">Next Level</Badge>
+                  <Badge variant="outline" className="text-accent border-accent/30">Next Rank</Badge>
                 </div>
                 <div>
-                  <h3 className="text-xl font-headline font-bold text-white mb-1">Entanglement Master</h3>
-                  <p className="text-sm text-muted-foreground">Gain 450 more XP to unlock rank</p>
+                  <h3 className="text-xl font-headline font-bold text-white mb-1">Quantum Rookie</h3>
+                  <p className="text-sm text-muted-foreground">Gain 100 XP to unlock your first rank</p>
                 </div>
                 <div className="flex items-center gap-4 mt-4">
                   <div className="flex -space-x-2">
                     {[1, 2, 3].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background overflow-hidden">
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background overflow-hidden grayscale">
                         <img src={`https://picsum.photos/seed/rank${i}/100/100`} alt="Avatar" />
                       </div>
                     ))}
                   </div>
-                  <span className="text-xs text-muted-foreground">Join 124 others in this rank</span>
+                  <span className="text-xs text-muted-foreground">Locked Achievements</span>
                 </div>
-                <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 mt-auto font-bold">
+                <Button variant="outline" disabled className="w-full border-white/10 hover:bg-white/5 mt-auto font-bold">
                   View Achievements
                 </Button>
               </Card>
@@ -142,9 +141,9 @@ export default function DashboardPage() {
 
             <section>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-headline font-bold text-white">Featured Lessons</h2>
+                <h2 className="text-2xl font-headline font-bold text-white">Recommended for You</h2>
                 <Link href="/dashboard/curriculum" className="text-sm text-primary hover:underline flex items-center gap-1">
-                  View All Curriculum <ChevronRight className="w-4 h-4" />
+                  Browse Curriculum <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -183,24 +182,24 @@ export default function DashboardPage() {
             </section>
 
             <Card className="glass-card p-6">
-              <h3 className="text-lg font-headline font-bold text-white mb-4">Daily Mission</h3>
+              <h3 className="text-lg font-headline font-bold text-white mb-4">First Mission</h3>
               <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
                 <div className="w-12 h-12 bg-yellow-500/20 text-yellow-500 rounded-lg flex items-center justify-center shrink-0">
                   <Calendar className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-white">The Bell State Challenge</p>
-                  <p className="text-xs text-muted-foreground">Complete 3 circuit simulations with CNOT gates.</p>
+                  <p className="text-sm font-bold text-white">The Qubit Greeting</p>
+                  <p className="text-xs text-muted-foreground">Watch the first lesson to earn your first XP points.</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-bold text-primary">+150 XP</span>
+                  <span className="text-xs font-bold text-primary">+50 XP</span>
                 </div>
               </div>
             </Card>
 
             <Card className="glass-card p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-headline font-bold text-white">Leaderboard</h3>
+                <h3 className="text-lg font-headline font-bold text-white">Global Ranking</h3>
                 <Link href="#" className="text-xs text-primary hover:underline">View All</Link>
               </div>
               <div className="space-y-4">
