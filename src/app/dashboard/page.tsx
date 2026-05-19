@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -18,7 +19,9 @@ import {
   BookOpen,
   Code2,
   Globe,
-  Newspaper
+  Newspaper,
+  Library,
+  Calculator
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 import CircuitLab from '@/components/quantum/CircuitLab';
@@ -54,6 +57,11 @@ export default function DashboardPage() {
           <Link href="/dashboard/coding">
             <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
               <Code2 className="w-5 h-5" /> Coding Lab
+            </Button>
+          </Link>
+          <Link href="/dashboard/tools">
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
+              <Library className="w-5 h-5" /> Tools & Lexicon
             </Button>
           </Link>
           <Link href="/dashboard/news">
@@ -126,23 +134,23 @@ export default function DashboardPage() {
               <Card className="glass-card p-6 flex flex-col gap-4">
                 <div className="flex justify-between items-start">
                   <div className="p-3 rounded-xl bg-accent/20 text-accent">
-                    <Trophy className="w-6 h-6" />
+                    <Calculator className="w-6 h-6" />
                   </div>
-                  <Badge variant="outline" className="text-accent border-accent/30">Skills</Badge>
+                  <Badge variant="outline" className="text-accent border-accent/30">Science Tools</Badge>
                 </div>
                 <div>
-                  <h3 className="text-xl font-headline font-bold text-white mb-1">Interactive Challenges</h3>
-                  <p className="text-sm text-muted-foreground">Test your knowledge or write real code.</p>
+                  <h3 className="text-xl font-headline font-bold text-white mb-1">Quantum Lab Tools</h3>
+                  <p className="text-sm text-muted-foreground">Solve equations or look up complex terms.</p>
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-4">
-                  <Link href="/dashboard/quiz">
+                  <Link href="/dashboard/tools">
                     <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 h-10 gap-2 text-xs">
-                      <BrainCircuit className="w-4 h-4" /> Quick Quiz
+                      <Calculator className="w-4 h-4" /> Solver
                     </Button>
                   </Link>
-                  <Link href="/dashboard/coding">
+                  <Link href="/dashboard/tools">
                     <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 h-10 gap-2 text-xs">
-                      <Code2 className="w-4 h-4" /> Code Lab
+                      <Library className="w-4 h-4" /> Lexicon
                     </Button>
                   </Link>
                 </div>
