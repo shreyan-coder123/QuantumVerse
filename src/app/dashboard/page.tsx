@@ -15,14 +15,15 @@ import {
   BrainCircuit,
   Atom,
   Settings,
-  BookOpen
+  BookOpen,
+  Code2
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 import CircuitLab from '@/components/quantum/CircuitLab';
 import { CURRICULUM } from '@/app/lib/curriculum';
 
 export default function DashboardPage() {
-  const activeLesson = CURRICULUM[0]; // Start with the first lesson for a fresh experience
+  const activeLesson = CURRICULUM[0]; // Start with the first lesson
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -47,9 +48,11 @@ export default function DashboardPage() {
           <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
             <Atom className="w-5 h-5" /> Circuit Lab
           </Button>
-          <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
-            <BrainCircuit className="w-5 h-5" /> Coding Lab
-          </Button>
+          <Link href="/dashboard/coding">
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
+              <Code2 className="w-5 h-5" /> Coding Lab
+            </Button>
+          </Link>
           <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
             <Trophy className="w-5 h-5" /> Leaderboard
           </Button>
@@ -117,25 +120,24 @@ export default function DashboardPage() {
                   <div className="p-3 rounded-xl bg-accent/20 text-accent">
                     <Trophy className="w-6 h-6" />
                   </div>
-                  <Badge variant="outline" className="text-accent border-accent/30">Next Rank</Badge>
+                  <Badge variant="outline" className="text-accent border-accent/30">Skills</Badge>
                 </div>
                 <div>
-                  <h3 className="text-xl font-headline font-bold text-white mb-1">Quantum Rookie</h3>
-                  <p className="text-sm text-muted-foreground">Gain 100 XP to unlock your first rank</p>
+                  <h3 className="text-xl font-headline font-bold text-white mb-1">Interactive Challenges</h3>
+                  <p className="text-sm text-muted-foreground">Test your knowledge or write real code.</p>
                 </div>
-                <div className="flex items-center gap-4 mt-4">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-background overflow-hidden grayscale">
-                        <img src={`https://picsum.photos/seed/rank${i}/100/100`} alt="Avatar" />
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-xs text-muted-foreground">Locked Achievements</span>
+                <div className="grid grid-cols-2 gap-3 mt-4">
+                  <Link href="/dashboard/quiz">
+                    <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 h-10 gap-2 text-xs">
+                      <BrainCircuit className="w-4 h-4" /> Quick Quiz
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard/coding">
+                    <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 h-10 gap-2 text-xs">
+                      <Code2 className="w-4 h-4" /> Code Lab
+                    </Button>
+                  </Link>
                 </div>
-                <Button variant="outline" disabled className="w-full border-white/10 hover:bg-white/5 mt-auto font-bold">
-                  View Achievements
-                </Button>
               </Card>
             </div>
 
@@ -169,7 +171,7 @@ export default function DashboardPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-headline font-bold text-white mb-6">Interactive Lab Preview</h2>
+              <h2 className="text-2xl font-headline font-bold text-white mb-6">Visual Circuit Lab</h2>
               <CircuitLab />
             </section>
           </div>

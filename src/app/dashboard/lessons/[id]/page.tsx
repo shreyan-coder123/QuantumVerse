@@ -3,7 +3,17 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Play, Clock, BookOpen, Sparkles, CheckCircle2 } from 'lucide-react';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  Play, 
+  Clock, 
+  BookOpen, 
+  Sparkles, 
+  CheckCircle2,
+  BrainCircuit,
+  Code2
+} from 'lucide-react';
 import { CURRICULUM } from '@/app/lib/curriculum';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 
@@ -70,6 +80,31 @@ export default function LessonPage({ params }: { params: { id: string } }) {
                   By the end, you'll have a strong conceptual understanding to apply in our Circuit Lab.
                 </p>
               </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Link href={`/dashboard/quiz?topic=${encodeURIComponent(lesson.title)}`} className="block">
+                  <Card className="glass-card p-6 flex items-center gap-4 hover:border-primary transition-all cursor-pointer group">
+                    <div className="w-12 h-12 rounded-xl bg-primary/20 text-primary flex items-center justify-center shrink-0">
+                      <BrainCircuit className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white group-hover:text-primary transition-colors">Lesson Quiz</h4>
+                      <p className="text-xs text-muted-foreground">Test your understanding of this topic.</p>
+                    </div>
+                  </Card>
+                </Link>
+                <Link href="/dashboard/coding" className="block">
+                  <Card className="glass-card p-6 flex items-center gap-4 hover:border-accent transition-all cursor-pointer group">
+                    <div className="w-12 h-12 rounded-xl bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                      <Code2 className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white group-hover:text-accent transition-colors">Coding Lab</h4>
+                      <p className="text-xs text-muted-foreground">Practice writing quantum code for this lesson.</p>
+                    </div>
+                  </Card>
+                </Link>
+              </div>
 
               <div className="flex justify-between items-center pt-8">
                 {prevLesson ? (
