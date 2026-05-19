@@ -15,12 +15,16 @@ import {
   BrainCircuit,
   Atom,
   Settings,
-  Bell
+  Bell,
+  BookOpen
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 import CircuitLab from '@/components/quantum/CircuitLab';
+import { CURRICULUM } from '@/app/lib/curriculum';
 
 export default function DashboardPage() {
+  const activeLesson = CURRICULUM[5]; // Showcase one of the lessons as "Active"
+
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar Navigation */}
@@ -33,23 +37,23 @@ export default function DashboardPage() {
         </div>
 
         <nav className="flex flex-col gap-2 flex-1">
-          {[
-            { label: 'Dashboard', icon: TrendingUp, active: true },
-            { label: 'Learning Tracks', icon: BrainCircuit },
-            { label: 'Circuit Lab', icon: Atom },
-            { label: 'Coding Lab', icon: Cpu },
-            { label: 'Leaderboard', icon: Trophy },
-            { label: 'Community', icon: Bell },
-          ].map((item, i) => (
-            <Button 
-              key={i} 
-              variant="ghost" 
-              className={`justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5 ${item.active ? 'text-primary bg-primary/10 hover:bg-primary/20' : ''}`}
-            >
-              <item.icon className="w-5 h-5" />
-              {item.label}
+          <Button variant="ghost" className="justify-start gap-3 h-12 text-primary bg-primary/10">
+            <TrendingUp className="w-5 h-5" /> Dashboard
+          </Button>
+          <Link href="/dashboard/curriculum">
+            <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-12 hover:text-white hover:bg-white/5">
+              <BookOpen className="w-5 h-5" /> Curriculum
             </Button>
-          ))}
+          </Link>
+          <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
+            <Atom className="w-5 h-5" /> Circuit Lab
+          </Button>
+          <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
+            <BrainCircuit className="w-5 h-5" /> Coding Lab
+          </Button>
+          <Button variant="ghost" className="justify-start gap-3 h-12 text-muted-foreground hover:text-white hover:bg-white/5">
+            <Trophy className="w-5 h-5" /> Leaderboard
+          </Button>
         </nav>
 
         <div className="mt-auto pt-6 border-t border-white/5">
@@ -82,28 +86,31 @@ export default function DashboardPage() {
           {/* Left Column: Progress & Paths */}
           <div className="xl:col-span-2 flex flex-col gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="glass-card p-6 flex flex-col gap-4">
-                <div className="flex justify-between items-start">
+              <Card className="glass-card p-6 flex flex-col gap-4 relative overflow-hidden">
+                <div className="flex justify-between items-start z-10">
                   <div className="p-3 rounded-xl bg-primary/20 text-primary">
                     <Target className="w-6 h-6" />
                   </div>
-                  <Badge className="bg-primary text-white">Active Track</Badge>
+                  <Badge className="bg-primary text-white">Continue Track</Badge>
                 </div>
-                <div>
-                  <h3 className="text-xl font-headline font-bold text-white mb-1">Intermediate Circuits</h3>
-                  <p className="text-sm text-muted-foreground">Module 4: Multi-qubit Gates</p>
+                <div className="z-10">
+                  <h3 className="text-xl font-headline font-bold text-white mb-1">{activeLesson.title}</h3>
+                  <p className="text-sm text-muted-foreground">Module: {activeLesson.module}</p>
                 </div>
-                <div className="space-y-2 mt-2">
+                <div className="space-y-2 mt-2 z-10">
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Progress</span>
                     <span className="text-white font-bold">65%</span>
                   </div>
                   <Progress value={65} className="h-1.5" />
                 </div>
-                <Button className="w-full bg-primary hover:bg-primary/90 mt-2 font-bold group">
-                  Continue Learning
-                  <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href={`/dashboard/lessons/${activeLesson.id}`} className="z-10">
+                  <Button className="w-full bg-primary hover:bg-primary/90 mt-2 font-bold group">
+                    Continue Learning
+                    <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 blur-3xl rounded-full" />
               </Card>
 
               <Card className="glass-card p-6 flex flex-col gap-4">
@@ -132,6 +139,35 @@ export default function DashboardPage() {
                 </Button>
               </Card>
             </div>
+
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-headline font-bold text-white">Featured Lessons</h2>
+                <Link href="/dashboard/curriculum" className="text-sm text-primary hover:underline flex items-center gap-1">
+                  View All Curriculum <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {CURRICULUM.slice(0, 3).map((lesson) => (
+                  <Link key={lesson.id} href={`/dashboard/lessons/${lesson.id}`}>
+                    <Card className="glass-card p-4 hover:bg-white/5 transition-colors h-full">
+                      <div className="aspect-video rounded-lg bg-black/40 mb-3 overflow-hidden relative">
+                        <img 
+                          src={`https://img.youtube.com/vi/${lesson.videoId}/mqdefault.jpg`} 
+                          className="w-full h-full object-cover opacity-60" 
+                          alt={lesson.title} 
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Play className="w-8 h-8 text-white/50" />
+                        </div>
+                      </div>
+                      <h4 className="text-sm font-bold text-white mb-1 line-clamp-1">{lesson.title}</h4>
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{lesson.module}</p>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </section>
 
             <section>
               <h2 className="text-2xl font-headline font-bold text-white mb-6">Interactive Lab Preview</h2>
