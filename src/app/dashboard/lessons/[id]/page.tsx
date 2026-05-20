@@ -1,4 +1,6 @@
+'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
@@ -21,14 +23,15 @@ import {
 import { CURRICULUM } from '@/app/lib/curriculum';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
 
-// Dynamically import heavy 3D component
+// Dynamically import heavy 3D component with ssr: false (must be in client component)
 const ConceptAnimator = dynamic(() => import('@/components/quantum/ConceptAnimator'), {
   ssr: false,
   loading: () => <div className="h-[400px] w-full flex items-center justify-center bg-black/20 rounded-2xl text-muted-foreground animate-pulse">Initializing Visualization Matrix...</div>
 });
 
-export default function LessonPage({ params }: { params: { id: string } }) {
-  const lessonIndex = CURRICULUM.findIndex(l => l.id === params.id);
+export default function LessonPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
+  const lessonIndex = CURRICULUM.findIndex(l => l.id === id);
   const lesson = CURRICULUM[lessonIndex];
 
   if (!lesson) notFound();

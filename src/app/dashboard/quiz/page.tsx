@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { 
@@ -13,8 +14,9 @@ import {
 } from 'lucide-react';
 import QuizComponent from '@/components/quantum/QuizComponent';
 
-export default function QuizPage({ searchParams }: { searchParams: { topic?: string } }) {
-  const topic = searchParams.topic || "Quantum Computing Fundamentals";
+export default async function QuizPage({ searchParams }: { searchParams: Promise<{ topic?: string }> }) {
+  const resolvedSearchParams = await searchParams;
+  const topic = resolvedSearchParams.topic || "Quantum Computing Fundamentals";
 
   return (
     <div className="min-h-screen bg-background flex">
