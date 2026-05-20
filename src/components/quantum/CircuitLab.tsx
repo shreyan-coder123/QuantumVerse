@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Layers, Play, RefreshCw, Trash2, Info, ChevronRight } from 'lucide-react';
+import { Layers, Play, RefreshCw, Trash2, Info } from 'lucide-react';
 
 const GATES = [
   { id: 'h', name: 'H', label: 'Hadamard', color: 'bg-blue-500', desc: 'Creates superposition' },
@@ -34,7 +34,6 @@ export default function CircuitLab() {
 
   const runSimulation = () => {
     setIsSimulating(true);
-    // Mock simulation delay
     setTimeout(() => {
       setIsSimulating(false);
       setResults({
@@ -47,7 +46,6 @@ export default function CircuitLab() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full min-h-[600px]">
-      {/* Toolbox */}
       <Card className="lg:col-span-1 glass border-white/5 p-6 flex flex-col gap-6">
         <div>
           <h3 className="text-lg font-headline font-bold mb-4 flex items-center gap-2">
@@ -75,18 +73,25 @@ export default function CircuitLab() {
         </div>
 
         <div className="mt-auto flex flex-col gap-3">
-          <Button onClick={runSimulation} disabled={isSimulating} className="w-full bg-primary hover:bg-primary/90 neon-violet font-bold h-12">
-            {isSimulating ? <RefreshCw className="animate-spin mr-2" /> : <Play className="mr-2" />}
+          <Button 
+            onClick={runSimulation} 
+            disabled={isSimulating} 
+            className="w-full bg-primary hover:bg-primary/90 neon-violet font-bold h-12 rounded-full px-6"
+          >
+            {isSimulating ? <RefreshCw className="animate-spin" /> : <Play />}
             Run Simulation
           </Button>
-          <Button onClick={clearCircuit} variant="outline" className="w-full border-white/10 h-12 font-bold">
-            <Trash2 className="mr-2 w-4 h-4" />
+          <Button 
+            onClick={clearCircuit} 
+            variant="outline" 
+            className="w-full border-white/10 h-12 font-bold rounded-full px-6"
+          >
+            <Trash2 />
             Clear Circuit
           </Button>
         </div>
       </Card>
 
-      {/* Editor Surface */}
       <Card className="lg:col-span-3 glass border-white/5 overflow-hidden flex flex-col relative">
         <div className="p-4 border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -142,7 +147,6 @@ export default function CircuitLab() {
           </div>
         </div>
 
-        {/* Results Area */}
         {results && (
           <div className="absolute bottom-0 inset-x-0 h-48 bg-card/80 backdrop-blur-xl border-t border-white/10 p-6 overflow-y-auto animate-in slide-in-from-bottom duration-500">
             <h4 className="text-sm font-headline font-bold text-white mb-4 flex items-center gap-2 uppercase tracking-widest">

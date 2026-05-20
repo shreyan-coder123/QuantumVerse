@@ -9,13 +9,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { 
   Play, 
   Terminal, 
-  Settings, 
   Code2, 
   Loader2, 
   BarChart3, 
   Info,
-  ChevronRight,
-  RefreshCw,
   Cpu
 } from 'lucide-react';
 import { simulateExecution } from '@/ai/flows/ai-simulate-execution';
@@ -108,7 +105,6 @@ export default function CodingLab() {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 flex-1 min-h-[500px]">
-        {/* Code Editor Side */}
         <Card className="glass-card flex flex-col overflow-hidden">
           <div className="p-3 border-b border-white/5 bg-white/5 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -123,16 +119,16 @@ export default function CodingLab() {
               size="sm" 
               onClick={handleRun} 
               disabled={isExecuting}
-              className="bg-primary hover:bg-primary/90 neon-violet h-8 px-6 font-bold"
+              className="bg-primary hover:bg-primary/90 neon-violet h-9 px-6 font-bold rounded-full"
             >
               {isExecuting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  <Loader2 className="animate-spin" />
                   Simulating...
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 mr-2" />
+                  <Play />
                   Run Code
                 </>
               )}
@@ -148,7 +144,6 @@ export default function CodingLab() {
           </div>
         </Card>
 
-        {/* Output Side */}
         <Card className="glass-card flex flex-col overflow-hidden bg-black/20">
           <Tabs defaultValue="logs" className="flex-1 flex flex-col">
             <div className="px-4 border-b border-white/5">
