@@ -11,7 +11,8 @@ import {
   Zap, 
   Building2, 
   FileText, 
-  Loader2 
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { getQuantumNews } from '@/ai/flows/ai-quantum-news-flow';
 
@@ -26,14 +27,18 @@ type NewsItem = {
 export default function QuantumNewsFeed({ limit }: { limit?: number }) {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchNews = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const data = await getQuantumNews();
       setNews(data.news);
-    } catch (error) {
-      console.error("Failed to fetch news:", error);
+    } catch (err: any) {
+      // This catch is a safety net; the server action already provides fallbacks for quota issues.
+      setError("Synchronizing with news matrix...");
+      console.warn("News sync issue:", err);
     } finally {
       setIsLoading(false);
     }
@@ -59,8 +64,11 @@ export default function QuantumNewsFeed({ limit }: { limit?: number }) {
   if (isLoading) {
     return (
       <Card className="glass-card p-8 flex flex-col items-center justify-center gap-4 min-h-[300px]">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
-        <p className="text-sm text-muted-foreground animate-pulse">Curating latest quantum updates...</p>
+        <div className="relative">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" />
+          <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+        </div>
+        <p className="text-sm text-muted-foreground animate-pulse uppercase tracking-widest font-bold">Curating News Matrix...</p>
       </Card>
     );
   }
@@ -68,53 +76,67 @@ export default function QuantumNewsFeed({ limit }: { limit?: number }) {
   const displayedNews = limit ? news.slice(0, limit) : news;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
-          <Zap className="w-4 h-4 text-accent" />
-          Industry Pulse
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em] flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(51,214,255,0.8)]" />
+          Neural Industry Pulse
         </h3>
         <Button 
           variant="ghost" 
           size="sm" 
           onClick={fetchNews}
-          className="h-8 text-[10px] text-muted-foreground hover:text-white"
+          className="h-8 text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary transition-all gap-2"
         >
-          <RefreshCw className="w-3 h-3 mr-1" /> Refresh
+          <RefreshCw className="w-3 h-3" /> Re-Sync
         </Button>
       </div>
 
+      {error && (
+        <div className="p-4 bg-accent/5 border border-accent/20 rounded-xl flex items-center gap-3 text-accent text-xs mb-4">
+          <AlertCircle className="w-4 h-4" />
+          {error}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-4">
-        {displayedNews.map((item, i) => (
-          <Card key={i} className="glass-card p-5 hover:bg-white/5 transition-all group border-l-2 border-l-transparent hover:border-l-primary">
-            <div className="flex justify-between items-start gap-4 mb-2">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-[10px] py-0 h-5 border-white/10 text-muted-foreground">
-                  {getSourceIcon(item.source)}
-                  <span className="ml-1">{item.source}</span>
-                </Badge>
-                <Badge variant="outline" className={`text-[10px] py-0 h-5 border-none capitalize ${getImportanceStyles(item.importance)}`}>
-                  {item.importance} Impact
-                </Badge>
+        {displayedNews.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground text-sm uppercase tracking-widest">
+            Matrix Feed Empty
+          </div>
+        ) : (
+          displayedNews.map((item, i) => (
+            <Card key={i} className="glass-card p-6 hover:bg-white/5 transition-all group border-l-2 border-l-transparent hover:border-l-primary relative">
+              <div className="scanline opacity-20" />
+              <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="text-[9px] py-0 h-5 border-white/10 text-muted-foreground bg-white/5 uppercase tracking-wider">
+                    {getSourceIcon(item.source)}
+                    <span className="ml-1.5">{item.source}</span>
+                  </Badge>
+                  <Badge variant="outline" className={`text-[9px] py-0 h-5 border-none uppercase tracking-wider px-2 font-bold ${getImportanceStyles(item.importance)}`}>
+                    {item.importance} Priority
+                  </Badge>
+                </div>
+                <span className="text-[9px] text-muted-foreground/60 font-mono uppercase tracking-tighter">{item.date}</span>
               </div>
-              <span className="text-[10px] text-muted-foreground whitespace-nowrap">{item.date}</span>
-            </div>
-            
-            <h4 className="text-md font-bold text-white mb-2 group-hover:text-primary transition-colors leading-tight">
-              {item.title}
-            </h4>
-            
-            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-              {item.summary}
-            </p>
-            
-            <div className="mt-4 flex justify-end">
-              <Button variant="ghost" size="sm" className="h-7 text-[10px] gap-1 group/btn">
-                Read Full Update <ExternalLink className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-              </Button>
-            </div>
-          </Card>
-        ))}
+              
+              <h4 className="text-lg font-headline font-bold text-white mb-3 group-hover:text-primary transition-colors leading-tight group-hover:text-glow-violet">
+                {item.title}
+              </h4>
+              
+              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 font-light">
+                {item.summary}
+              </p>
+              
+              <div className="mt-6 flex justify-end">
+                <Button variant="ghost" size="sm" className="h-8 text-[9px] uppercase tracking-widest gap-2 group/btn text-muted-foreground hover:text-white hover:bg-white/5">
+                  Link Neural Trace <ExternalLink className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                </Button>
+              </div>
+            </Card>
+          ))
+        )}
       </div>
     </div>
   );
