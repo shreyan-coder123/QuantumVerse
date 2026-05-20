@@ -1,4 +1,6 @@
+
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Play, 
   Clock, 
   BookOpen, 
   Sparkles, 
@@ -19,7 +20,12 @@ import {
 } from 'lucide-react';
 import { CURRICULUM } from '@/app/lib/curriculum';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
-import ConceptAnimator from '@/components/quantum/ConceptAnimator';
+
+// Dynamically import heavy 3D component
+const ConceptAnimator = dynamic(() => import('@/components/quantum/ConceptAnimator'), {
+  ssr: false,
+  loading: () => <div className="h-[400px] w-full flex items-center justify-center bg-black/20 rounded-2xl text-muted-foreground animate-pulse">Initializing Visualization Matrix...</div>
+});
 
 export default function LessonPage({ params }: { params: { id: string } }) {
   const lessonIndex = CURRICULUM.findIndex(l => l.id === params.id);

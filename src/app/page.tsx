@@ -2,11 +2,17 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { ArrowRight, Cpu, Sparkles, BrainCircuit, Rocket, Trophy, Globe, Atom } from 'lucide-react';
-import QuantumUniverse from '@/components/quantum/QuantumUniverse';
+
+// Dynamically import heavy 3D component
+const QuantumUniverse = dynamic(() => import('@/components/quantum/QuantumUniverse'), { 
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-[#050208] -z-10" />
+});
 
 export default function LandingPage() {
   return (

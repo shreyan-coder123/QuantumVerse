@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +10,6 @@ import { Card } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { 
   Cpu, 
-  Flame, 
   Target, 
   Trophy, 
   Play, 
@@ -22,7 +22,6 @@ import {
   BookOpen,
   Code2,
   Globe,
-  Newspaper,
   Library,
   Calculator,
   Zap,
@@ -30,9 +29,14 @@ import {
   Sparkles
 } from 'lucide-react';
 import ProfessorChat from '@/components/quantum/ProfessorChat';
-import CircuitLab from '@/components/quantum/CircuitLab';
 import QuantumNewsFeed from '@/components/quantum/QuantumNewsFeed';
 import { CURRICULUM } from '@/app/lib/curriculum';
+
+// Dynamically import the heavy CircuitLab
+const CircuitLab = dynamic(() => import('@/components/quantum/CircuitLab'), {
+  ssr: false,
+  loading: () => <div className="h-[400px] w-full flex items-center justify-center text-muted-foreground animate-pulse">Initializing Lab Environment...</div>
+});
 
 export default function DashboardPage() {
   const activeLesson = CURRICULUM[0];

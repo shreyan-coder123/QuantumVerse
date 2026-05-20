@@ -1,6 +1,8 @@
+
 "use client";
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +18,6 @@ import {
   Book, 
   Search, 
   Atom, 
-  Cpu, 
   Waves, 
   Zap, 
   Ghost,
@@ -24,7 +25,11 @@ import {
   Activity,
   Play
 } from 'lucide-react';
-import ConceptAnimator from './ConceptAnimator';
+
+const ConceptAnimator = dynamic(() => import('./ConceptAnimator'), {
+  ssr: false,
+  loading: () => <div className="h-[500px] w-full flex items-center justify-center bg-black/20 rounded-2xl">Loading Visualization...</div>
+});
 
 const TERMS = [
   {
